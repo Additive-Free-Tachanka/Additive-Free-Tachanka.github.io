@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URAWA BEOLSAE</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Oswald:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* =============================================
+     🎨 COLOR — ここで全体の色を変更できます
+  ============================================= */
+  --accent:   #29b6f6;   /* メインアクセント（シアン系） */
+  --accent2:  #ef5350;   /* サブアクセント（赤系） */
+  --bg:       #080b0f;   /* ページ背景（最暗） */
+  --bg2:      #0f1318;   /* セクション背景 */
+  --bg3:      #161c23;   /* カード背景 */
+  --text:     #dde3ea;   /* 本文テキスト */
+  --muted:    #aaacaf;   /* 薄いテキスト */
+  --border:   rgba(255,255,255,0.07);
+
+  /* =============================================
+     📐 LAYOUT
+  ============================================= */
+  --max-w: 1100px;
+  --pad-x: 7%;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 300;
+  line-height: 1.75;
+  overflow-x: hidden;
+  
+}
+
+/* ===========================
+   UTILITY
+=========================== */
+.label {
+  font-size: .68rem; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--accent); display: block; margin-bottom: .6rem;
+}
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700; line-height: 1.05; letter-spacing: .02em;
+  margin-bottom: 1rem;
+}
+.divider {
+  width: 36px; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  margin-bottom: 2.5rem;
+}
+
+/* scroll reveal */
+.reveal { opacity:0; transform:translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+.reveal.in { opacity:1; transform:none; }
+
+/* ===========================
+   NAV
+=========================== */
+nav {
+  position: fixed; top:0; left:0; width:100%; z-index:200;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 1.1rem var(--pad-x);
+  background: rgba(8,11,15,.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.35rem; font-weight: 600; letter-spacing: .12em;
+  color: var(--accent); text-decoration: none;
+}
+.nav-links { display:flex; gap:2.2rem; list-style:none; }
+.nav-links a {
+  color: var(--muted); text-decoration:none;
+  font-size: .78rem; letter-spacing: .1em; text-transform:uppercase;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+/* ===========================
+   HERO SLIDER
+   ── 画像は .slide の background-image に設定してください
+=========================== */
+.hero {
+  position: relative; height: 100vh; overflow: hidden;
+}
+.slides-wrap {
+  display:flex; height:100%;
+  transition: transform .85s cubic-bezier(.77,0,.18,1);
+}
+
+/* ── スライド1〜3: 背景色をチーム写真のURLに差し替えてください
+   例: background-image: url('img/slide1.jpg'); background-size:cover; background-position:center;
+*/
+.slide {
+  flex: 0 0 100%; position:relative; overflow:hidden;
+
+}
+.slide:nth-child(1) {   
+  background: url('BEOLSAELOGO.png') ;
+  background-size:cover;
+  background-position:center;}
+.slide:nth-child(2) { 
+  background: url('kitai.jpg') ;
+  background-size:cover;
+  background-position:center;} 
+.slide:nth-child(3) {
+  background: url('Poster.png') ;
+  background-size:cover;
+  background-position:center;}
+
+/* グリッドオーバーレイ（装飾） */
+.slide::after {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(41,182,246,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(41,182,246,.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+/* 左グラデーション暗幕 */
+.slide::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(90deg, rgba(8,11,15,.82) 30%, transparent 80%),
+              linear-gradient(0deg, rgba(8,11,15,.6) 0%, transparent 60%);
+}
+
+.slide-content {
+  position:absolute; bottom:13%; left: var(--pad-x); z-index:2;
+  max-width: 800px;
+}
+.slide-tag {
+  display:inline-block;
+  font-size:1.55rem; letter-spacing:.22em; text-transform:uppercase;
+  color: var(--accent); border:2px solid rgba(41,182,246,.4);
+  padding:.28rem .8rem; border-radius:2px; margin-bottom:1.4rem;
+  opacity:0; animation: fadeUp .7s .2s forwards;
+}
+.slide-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.8rem, 9vw, 7rem);
+  font-weight:1100; line-height:.95; letter-spacing:.01em;
+  opacity:0; animation: fadeUp .7s .4s forwards;
+}
+.slide-title em { color: var(--accent); font-style:normal; }
+.slide-body {
+  margin-top:1.4rem; font-size:.95rem; color: var(--muted); max-width:400px;
+  opacity:0; animation: fadeUp .7s .6s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:none; }
+}
+
+/* dots */
+.dots {
+  position:absolute; bottom:5.5%; left:50%; transform:translateX(-50%);
+  display:flex; gap:10px; z-index:3;
+}
+.dot {
+  width:8px; height:8px; border-radius:4px;
+  background:rgba(255,255,255,.22); cursor:pointer;
+  transition: width .35s, background .35s;
+}
+.dot.on { width:28px; background:var(--accent); }
+
+/* arrows */
+.arr {
+  position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+  width:46px; height:46px; display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.05); border:1px solid var(--border);
+  color:var(--text); font-size:1.2rem; cursor:pointer; transition:background .2s;
+}
+.arr:hover { background:rgba(41,182,246,.15); }
+.arr.prev { left:1.8rem; }
+.arr.next { right:1.8rem; }
+
+/* ===========================
+   ABOUT
+=========================== */
+
+#about {
+  padding: 7rem var(--pad-x);
+  display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;
+  max-width: var(--max-w); margin:0 auto;
+  
+}
+
+.about-visual {
+  
+  position:relative; aspect-ratio:1; max-width:400px; margin:0 auto;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* stat cards */
+.stats {
+  max-width:600px;
+  display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:2.2rem;
+}
+.stat {
+  background:var(--bg3); border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  border-radius:6px; padding:1.1rem 1.2rem;
+}
+.stat-num {
+  max-width:400px;
+  font-family:'Oswald',sans-serif; font-size:2.4rem; font-weight:600;
+  color:var(--accent); line-height:1;
+}
+.stat-lbl { font-size:.75rem; color:var(--muted); margin-top:.25rem; }
+
+
+/* ===========================
+   MEMBERS
+=========================== */
+#members {
+  background:var(--bg2);
+  padding: 7rem var(--pad-x);
+}
+#members .inner { max-width:var(--max-w); margin:0 auto; }
+
+.members-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap:1.4rem; margin-top:2rem;
+}
+.member-card {
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; overflow:hidden;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+.member-card:hover {
+  transform:translateY(-7px);
+  border-color: var(--accent);
+  box-shadow:0 12px 32px rgba(41,182,246,.08);
+}
+.member-photo {
+  width:100%; aspect-ratio:1; overflow:hidden;
+  background:var(--bg); display:flex; align-items:center; justify-content:center;
+}
+/* ── 写真は <img> タグで入れてください
+   例: <img src="img/member1.jpg" alt="名前"> */
+.member-photo .placeholder {
+  font-family:'Oswald',sans-serif; font-size:3rem; font-weight:700;
+  color:var(--muted);
+  /* ↓ 背景に薄いパターン */
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 6px,
+    rgba(255,255,255,.015) 6px, rgba(255,255,255,.015) 12px
+  );
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+}
+.member-body { padding:1.1rem 1.2rem; }
+.member-name { font-weight:700; font-size:.97rem; margin-bottom:.2rem; }
+.member-role { font-size:.75rem; color:var(--accent); margin-bottom:.7rem; }
+.member-desc { font-size:.78rem; color:var(--muted); line-height:1.65; }
+
+/* ===========================
+   CONTACT / SNS
+=========================== */
+#contact {
+  padding: 7rem var(--pad-x);
+  max-width:var(--max-w); margin:0 auto;
+}
+.contact-inner {
+  display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start;
+}
+/* SNSリンク */
+.sns-list { display:flex; flex-direction:column; gap:.8rem; margin-top:1rem; }
+.sns-link {
+  display:flex; align-items:center; gap:.8rem;
+  color:var(--text); text-decoration:none;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:6px; padding:.75rem 1.1rem; font-size:.88rem;
+  transition: border-color .2s, background .2s;
+}
+.sns-link:hover { border-color:var(--accent); background:rgba(41,182,246,.06); }
+.sns-icon {
+  width:20px; height:20px; border-radius:4px;
+  background:rgba(41,182,246,.15); display:flex; align-items:center; justify-content:center;
+  font-size:.75rem; font-weight:700; color:var(--accent); flex-shrink:0;
+}
+
+/* お問い合わせフォーム風レイアウト */
+.contact-form { display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+.field label {
+  display:block; font-size:.75rem; color:var(--muted);
+  letter-spacing:.07em; margin-bottom:.4rem;
+}
+.field input, .field textarea {
+  width:100%; background:var(--bg3); border:1px solid var(--border);
+  border-radius:6px; padding:.7rem 1rem; color:var(--text);
+  font-family:'Noto Sans JP',sans-serif; font-size:.88rem;
+  outline:none; transition:border-color .2s;
+  resize:vertical;
+}
+.field input:focus, .field textarea:focus { border-color:var(--accent); }
+.field textarea { min-height:100px; }
+/* ── フォームを使わない場合はこのブロックごと削除してOKです */
+.submit-btn {
+  align-self:flex-start;
+  background:transparent; border:1px solid var(--accent);
+  color:var(--accent); font-family:'Oswald',sans-serif; font-size:.9rem;
+  font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  padding:.65rem 2rem; border-radius:4px; cursor:pointer;
+  transition: background .2s, color .2s;
+}
+.submit-btn:hover { background:var(--accent); color:#000; }
+
+/* ===========================
+   FOOTER
+=========================== */
+footer {
+  border-top:1px solid var(--border);
+  padding:2.2rem var(--pad-x);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1rem;
+}
+.footer-logo { font-family:'Oswald',sans-serif; font-size:1rem; font-weight:600; letter-spacing:.1em; color:var(--accent); }
+.footer-copy { font-size:.75rem; color:var(--muted); }
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+  #about           { grid-template-columns:1fr; gap:3rem; }
+  .about-visual    { display:none; }
+  .contact-inner   { grid-template-columns:1fr; gap:2.5rem; }
+  .nav-links       { display:none; }
+  footer           { flex-direction:column; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- =============================================
+     NAV
+     ── チーム名・リンク名を書き換えてください
+============================================= -->
+<nav>
+  <a class="nav-logo" href="#">URAWA BEOLSAE</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#members">Members</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+
+<!-- =============================================
+     HERO SLIDER
+     ── .slide-tag / .slide-title / .slide-body を書き換えてください
+     ── 背景写真は各 .slide に style="background-image:url(...)" を追加
+============================================= -->
+<section class="hero">
+  <div class="slides-wrap" id="slidesWrap">
+
+    <!-- スライド 1 -->
+    <div class="slide">
+      <div class="slide-content">
+        <span class="slide-tag">埼玉県立浦和高等学校物理部 </span>
+        <h1 class="slide-title">
+          URAWA<br><em>BEOLSAE</em></br>
+        </h1>
+        <p class="slide-body">ロボカップジュニアライトウェイトチーム</p>
+      </div>
+    </div>
+
+    <!-- スライド 2 -->
+    <div class="slide">
+      <div class="slide-content">
+        <span class="slide-tag">技術の基盤を確立</span>
+        <h1 class="slide-title">初出場<br><em>全国総合7位</em></h1>
+      
+      </div>
+    </div>
+
+    <!-- スライド 3 -->
+    <div class="slide">
+      <div class="slide-content">
+        <span class="slide-tag">後世の技術継承</span>
+        <h1 class="slide-title">次世代に繋げる</em>ネットワーク</h1>
+        
+      </div>
+    </div>
+
+  </div><!-- /slides-wrap -->
+
+  <button class="arr prev" id="prev">&#8592;</button>
+  <button class="arr next" id="next">&#8594;</button>
+
+  <div class="dots" id="dots">
+    <div class="dot on"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     ABOUT
+     ── 左: テキスト / 右: 回転リング装飾 (ロゴ画像に差し替え可)
+     ── stat カードの数字・ラベルを書き換えてください
+============================================= -->
+<section id="about">
+
+  <!-- 左カラム: テキスト -->
+  <div class="about-text">
+    <span class="label reveal">About</span>
+    <h2 class="section-title reveal">What is<br>"URAWA BEOLSAE"?</h2>
+    <div class="divider reveal"></div>
+
+    <p class="reveal" style="width: 500px;">
+      埼玉県立浦和高等学校物理部の3人で構成される弊校史上初のRCJサッカーライトウェイトチームです。
+      浦高をRCJで世界へと羽ばたかせる最初の一歩(?)のチームとなることを夢に2025年10月に結成。
+      2026年に最初で最後の全国大会出場を果たし、総合7位という成績を収めました。
+      今後は浦高物理部RCJの発展を目指し、次世代のチームへと技術を繋げていきます。
+    <br>
+    名前の由来はハチドリのような正確な動きで勝利をつかむことを願いつつRCJ2026世界大会開催国の韓国にちなみ、韓国語でハチドリを意味する「beolsae（벌새）」から来ています。(読み方はウラワボルセ)
+    </p>
+    <p class="reveal" style="margin-top:1rem; color:var(--muted)">
+      たぶん
+    </p>
+
+    <!-- 数字で実績を見せる stat カード -->
+    <div class="stats">
+      <div class="stat reveal">
+        <div class="stat-num">RCJ2026北埼玉ノード大会<br>準優勝</div>
+      
+      </div>
+      <div class="stat reveal">
+        <div class="stat-num">RCJ2026埼玉ブロック<br>ベスト4</div>
+    
+      </div>
+      <div class="stat reveal">
+        <div class="stat-num">RCJ2026全国大会<br>総合7位</div>
+    
+      </div>
+     
+    </div>
+  </div>
+
+  <!-- 右カラム: 装飾ビジュアル (チームロゴ画像に差し替え推奨) -->
+  <div class="about-visual reveal">
+    <div class="ring"></div>
+    <div class="ring r2"></div>
+    <!-- ↓ ロゴ画像を使う場合はこの div を <img src="..." alt="logo" style="width:60%;z-index:1"> に差し替え -->
+  <img src="BEOLSAELOGO.png" alt="logo" style="width:120%;z-index:1;float: right;">
+  </div>
+
+</section>
+
+
+<!-- =============================================
+     MEMBERS
+     ── .member-card を人数分コピーして使ってください
+     ── .placeholder を <img src="..." alt="名前"> に差し替えると写真が入ります
+============================================= -->
+<section id="members">
+  <div class="inner">
+    <span class="label reveal">Team</span>
+    <h2 class="section-title reveal">Our Members</h2>
+    <div class="divider reveal"></div>
+
+    <div class="members-grid">
+
+      <!-- メンバー1 -->
+      <div class="member-card reveal">
+        <div class="member-photo">
+          <!-- 写真: <img src="img/member1.jpg" alt="名前" style="width:100%;height:100%;object-fit:cover"> -->
+          <div class="placeholder">〔名〕</div>
+        </div>
+        <div class="member-body">
+          <div class="member-name">marudachi</div>
+          <div class="member-role">プログラム・設計・回路担当</div>
+          <p class="member-desc">一言自己紹介・担当内容など。</p>
+        </div>
+      </div>
+
+      <!-- メンバー2 -->
+      <div class="member-card reveal">
+        <div class="member-photo">
+          <div class="placeholder">〔名〕</div>
+        </div>
+        <div class="member-body">
+          <div class="member-name">Tellurnoid</div>
+          <div class="member-role">プログラム・回路担当</div>
+          <p class="member-desc">〔 一言自己紹介 〕</p>
+        </div>
+      </div>
+
+      <!-- メンバー3 -->
+      <div class="member-card reveal">
+        <div class="member-photo">
+          <div class="placeholder">〔名〕</div>
+        </div>
+        <div class="member-body">
+          <div class="member-name">Tachanka</div>
+          <div class="member-role">設計・回路担当</div>
+          <p class="member-desc">〔 一言自己紹介 〕</p>
+        </div>
+      </div>
+
+     
+
+      <!-- ── メンバーが増えた場合は上の <div class="member-card ..."> ブロックをコピーして追加 -->
+
+    </div><!-- /members-grid -->
+  </div>
+</section>
+
+
+<!-- =============================================
+     CONTACT / SNS
+     ── 左: SNSリンク / 右: お問い合わせフォーム (不要なら削除可)
+============================================= -->
+<section id="contact">
+  <div class="contact-inner">
+
+    <!-- 左: SNS リンク -->
+    <div>
+      <span class="label reveal">Connect</span>
+      <h2 class="section-title reveal">SNS &amp;<br>Contact</h2>
+      <div class="divider reveal"></div>
+      <p class="reveal" style="color:var(--muted); margin-bottom:1.5rem">
+        活動の様子はSNSで発信しています
+      </p>
+
+      <div class="sns-list">
+        <!-- SNSリンク: href に実際のURLを入れ、〔 〕内を書き換えてください -->
+        <a class="sns-link reveal" href="#">
+          <div class="sns-icon">X</div>
+          <span>〔 @ハンドル名 〕 — Twitter / X</span>
+        </a>
+        <a class="sns-link reveal" href="#">
+          <div class="sns-icon">YT</div>
+          <span>〔 チャンネル名 〕 — YouTube</span>
+        </a>
+        <a class="sns-link reveal" href="#">
+          <div class="sns-icon">IG</div>
+          <span>〔 @ハンドル名 〕 — Instagram</span>
+        </a>
+        <!-- 不要なリンクは削除、必要なら同じ形式で追加 -->
+      </div>
+    </div>
+
+    <!-- 右: お問い合わせフォーム (使わない場合はこの <div> ごと削除) -->
+    <div>
+      <span class="label reveal" style="opacity:0">_</span><!-- 高さ揃え用 -->
+      <h3 class="reveal" style="font-family:'Oswald',sans-serif;font-size:1.5rem;margin-bottom:1.5rem;margin-top:1.35rem">
+        お問い合わせ
+      </h3>
+      <form class="contact-form reveal" action="#" method="post">
+        <div class="field">
+          <label for="name">お名前</label>
+          <input type="text" id="name" name="name" placeholder="山田 太郎">
+        </div>
+        <div class="field">
+          <label for="email">メールアドレス</label>
+          <input type="email" id="email" name="email" placeholder="example@email.com">
+        </div>
+        <div class="field">
+          <label for="message">メッセージ</label>
+          <textarea id="message" name="message" placeholder="お気軽にどうぞ…"></textarea>
+        </div>
+        <button class="submit-btn" type="submit">Send →</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- =============================================
+     FOOTER
+============================================= -->
+<footer>
+  <div class="footer-logo">URAWA BEOLSAE</div>
+  <p class="footer-copy">〔 &copy; 2025 URAWA BEOLSAE. All rights reserved. 〕</p>
+</footer>
+
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
+<script>
+  // ── SLIDER
+  const wrap  = document.getElementById('slidesWrap');
+  const dots  = document.querySelectorAll('.dot');
+  let cur = 0;
+  const total = 3; // スライド枚数に合わせてください
+
+  function goTo(n) {
+    cur = (n + total) % total;
+    wrap.style.transform = `translateX(-${cur * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  }
+  document.getElementById('prev').onclick = () => goTo(cur - 1);
+  document.getElementById('next').onclick = () => goTo(cur + 1);
+  dots.forEach((d, i) => d.onclick = () => goTo(i));
+  setInterval(() => goTo(cur + 1), 5500);
+
+  // ── SCROLL REVEAL
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
