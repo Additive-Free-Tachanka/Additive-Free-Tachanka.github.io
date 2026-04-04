@@ -482,7 +482,7 @@ footer {
           <div class="placeholder"><img src="profile_75623e1f86f0930699ec0fbc730628a0.webp" alt="marudachi" style="width:100%;height:100%;object-fit:cover"></div>
         </div>
         <div class="member-body">
-          <div class="member-name">marudachi</div>
+          <div class="member-name">marudachi-<a href="https://x.com/marudachi15?s=20"><img src="X_icon.webp" alt="marudachi"></a></div>
           <div class="member-role">プログラム・設計・回路担当</div>
           <p class="member-desc">一言自己紹介・担当内容など。</p>
         </div>
@@ -585,7 +585,7 @@ footer {
   document.getElementById('prev').onclick = () => goTo(cur - 1);
   document.getElementById('next').onclick = () => goTo(cur + 1);
   dots.forEach((d, i) => d.onclick = () => goTo(i));
-  setInterval(() => goTo(cur + 1), 10000);
+  setInterval(() => goTo(cur + 1), 6000);
 
   // ── SCROLL REVEAL
   const observer = new IntersectionObserver(entries => {
