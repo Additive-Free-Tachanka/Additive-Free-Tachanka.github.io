@@ -491,7 +491,7 @@ footer {
       <!-- メンバー2 -->
       <div class="member-card reveal">
         <div class="member-photo">
-          <div class="placeholder">〔名〕</div>
+          <div class="placeholder"><img src="7WSPYfpn_400x400.jpg" alt="tellurnoid" style="width:100%;height:100%;object-fit:cover"></div>
         </div>
         <div class="member-body">
           <div class="member-name">Tellurnoid</div>
@@ -503,12 +503,12 @@ footer {
       <!-- メンバー3 -->
       <div class="member-card reveal">
         <div class="member-photo">
-          <div class="placeholder">〔名〕</div>
+          <div class="placeholder"><img src="PORBtizR_400x400.jpg" alt="Tachanka" style="width:100%;height:100%;object-fit:cover"></div>
         </div>
         <div class="member-body">
           <div class="member-name">Tachanka</div>
           <div class="member-role">設計・回路担当</div>
-          <p class="member-desc">〔 一言自己紹介 〕</p>
+          <p class="member-desc">ゲーム中毒者。ゲームしていなければ設計はもっと余裕をもって終わっていただろう</p>
         </div>
       </div>
 
@@ -539,45 +539,21 @@ footer {
 
       <div class="sns-list">
         <!-- SNSリンク: href に実際のURLを入れ、〔 〕内を書き換えてください -->
-        <a class="sns-link reveal" href="#">
+        <a class="sns-link reveal" href="https://x.com/ButsuriUra24603">
           <div class="sns-icon">X</div>
-          <span>〔 @ハンドル名 〕 — Twitter / X</span>
+          <span>@ButsuriUra24603 — Twitter / X</span>
         </a>
         <a class="sns-link reveal" href="#">
           <div class="sns-icon">YT</div>
-          <span>〔 チャンネル名 〕 — YouTube</span>
+          <span>ありません — YouTube</span>
         </a>
         <a class="sns-link reveal" href="#">
           <div class="sns-icon">IG</div>
-          <span>〔 @ハンドル名 〕 — Instagram</span>
+          <span>あるけどリンク分かりません— Instagram</span>
         </a>
         <!-- 不要なリンクは削除、必要なら同じ形式で追加 -->
       </div>
     </div>
-
-    <!-- 右: お問い合わせフォーム (使わない場合はこの <div> ごと削除) -->
-    <div>
-      <span class="label reveal" style="opacity:0">_</span><!-- 高さ揃え用 -->
-      <h3 class="reveal" style="font-family:'Oswald',sans-serif;font-size:1.5rem;margin-bottom:1.5rem;margin-top:1.35rem">
-        お問い合わせ
-      </h3>
-      <form class="contact-form reveal" action="#" method="post">
-        <div class="field">
-          <label for="name">お名前</label>
-          <input type="text" id="name" name="name" placeholder="山田 太郎">
-        </div>
-        <div class="field">
-          <label for="email">メールアドレス</label>
-          <input type="email" id="email" name="email" placeholder="example@email.com">
-        </div>
-        <div class="field">
-          <label for="message">メッセージ</label>
-          <textarea id="message" name="message" placeholder="お気軽にどうぞ…"></textarea>
-        </div>
-        <button class="submit-btn" type="submit">Send →</button>
-      </form>
-    </div>
-
   </div>
 </section>
 
@@ -609,7 +585,7 @@ footer {
   document.getElementById('prev').onclick = () => goTo(cur - 1);
   document.getElementById('next').onclick = () => goTo(cur + 1);
   dots.forEach((d, i) => d.onclick = () => goTo(i));
-  setInterval(() => goTo(cur + 1), 5500);
+  setInterval(() => goTo(cur + 1), 10000);
 
   // ── SCROLL REVEAL
   const observer = new IntersectionObserver(entries => {
